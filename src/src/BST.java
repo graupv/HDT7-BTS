@@ -7,6 +7,7 @@ public class BST {
     //  http://www.newthinktank.com/2013/03/binary-tree-in-java/
 
     static final String archivo = "diccionario.txt";
+    static final String texto = "texto.txt";
     static final String delim = "(,)\t\n ";
 
     Node root;
@@ -16,7 +17,7 @@ public class BST {
 
 
     public static void main(String[] args)throws IOException{
-        StringTokenizer tokenizer = new StringTokenizer(getDataFile(), delim);
+        StringTokenizer tokenizer = new StringTokenizer(getDataFile(archivo), delim);
         BST tree = new BST();
 //        System.out.println(System.getProperty("user.dir"));
         while(tokenizer.hasMoreTokens()){
@@ -28,6 +29,15 @@ public class BST {
         //  In-Order
         //  LEFT -> ROOT -> RIGHT
         inOrder(tree.root);
+
+        //  ahora cargar archivo
+        System.out.println();
+        tokenizer = new StringTokenizer(getDataFile(texto), delim);
+        while(tokenizer.hasMoreTokens()){
+            //  popular arbol
+            Association d = new Association(tokenizer.nextToken(), "");
+            tree.findNode(d);
+        }
 
     }
 
@@ -79,7 +89,8 @@ public class BST {
                 focusNode = focusNode.getRight();
             }
             if (focusNode == null){
-                //  empty node
+                //  empty node, no se encontro
+                System.out.print("*" + data.getKey() + "*");
                 return null;
             }
 
@@ -87,7 +98,7 @@ public class BST {
         return focusNode;
     }
 
-    private static String getDataFile() throws IOException, FileNotFoundException{
+    private static String getDataFile(String archivo) throws IOException, FileNotFoundException{
 
         BufferedReader reader;
         File file;
